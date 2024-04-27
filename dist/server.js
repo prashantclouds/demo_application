@@ -14,10 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoconnection_1 = require("./src/database/mongoconnection");
+const user_routes_1 = __importDefault(require("./src/routes/user.routes"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const app = (0, express_1.default)();
             console.log("============= Before Server Start =============");
             yield mongoconnection_1.mongoConnection.connectionwithMongodb();
             console.log(`%c${"Welcome to Demo Backend App"}`, `${"color: #e67e22; font-size: 24px;font-weight: bold;"}`);
@@ -31,4 +33,5 @@ function startServer() {
         }
     });
 }
+app.use("/signup", user_routes_1.default);
 startServer();

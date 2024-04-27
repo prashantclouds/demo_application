@@ -1,8 +1,11 @@
 import express from "express"
 import { mongoConnection } from "./src/database/mongoconnection";
+import userRoute from "./src/routes/user.routes"
+const app=express();
+
+app.use(express.json())
 async function startServer() {
   try {
-    const app=express();
     console.log("============= Before Server Start =============");
     await mongoConnection.connectionwithMongodb();
       console.log(
@@ -16,4 +19,6 @@ async function startServer() {
     throw error;
   }
 }
+app.use("/signup",userRoute)
+
 startServer();

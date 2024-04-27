@@ -17,6 +17,10 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+    password:{
+      type:String,
+      require:true
+    }
   },
 
   {

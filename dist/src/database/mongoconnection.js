@@ -18,7 +18,7 @@ class DaoConnection {
     connectionwithMongodb() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield mongoose_1.default.connect("mongodb://localhost:27017/demo");
+                yield mongoose_1.default.connect("mongodb+srv://vikashagrahari:j2E4QWs74OIlxk8h@cluster0.w5jfqek.mongodb.net/Demo-Application");
                 console.log("mongo connnection successfully created");
             }
             catch (error) {

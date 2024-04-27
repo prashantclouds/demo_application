@@ -63,7 +63,7 @@ export default class BaseEntity {
     );
   }
 
-  async remove(condition: any): Promise<IApp.Entity<boolean>> {
+  async remove(condition: any): Promise<any> {
     try {
       const updateResult = await this.modelName
         .updateOne({ _id: condition }, { $set: { status: 3 } })

@@ -15,6 +15,7 @@ class UserController {
     signup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log("inside try", req.body.firstName);
                 const payload = req.body;
                 const result = yield user_service_1.User.Signup(payload);
                 if (result) {
