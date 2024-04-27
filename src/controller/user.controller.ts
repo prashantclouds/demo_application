@@ -19,6 +19,22 @@ class UserController{
         }
     }
 
+    async login(req:Request,res:Response){
+        try{
+            const payload=req.body;
+            const result:any = await User.loginService(payload);
+            if(result){
+                return res.status(200).send(result);
+            }
+            else{
+                return res.status(400).send("something went wrong")
+            }
+        }
+        catch(error){
+            throw error;
+        }
+    }
+
     async forgotPassword(req:Request,res:Response,next:NextFunction){
         try{
             const email = req.body.email;

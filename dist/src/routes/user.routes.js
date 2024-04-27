@@ -7,4 +7,6 @@ const express_1 = __importDefault(require("express"));
 const user_controller_1 = require("../controller/user.controller");
 const router = express_1.default.Router();
 router.post("/", user_controller_1.UserControllers.signup);
+router.post("/forgot-password", user_controller_1.UserControllers.forgotPassword);
+router.post("/login", user_controller_1.UserControllers.login);
 exports.default = router;

@@ -15,6 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoconnection_1 = require("./src/database/mongoconnection");
 const user_routes_1 = __importDefault(require("./src/routes/user.routes"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const port = process.env.PORT;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 function startServer() {
@@ -24,8 +27,8 @@ function startServer() {
             yield mongoconnection_1.mongoConnection.connectionwithMongodb();
             console.log(`%c${"Welcome to Demo Backend App"}`, `${"color: #e67e22; font-size: 24px;font-weight: bold;"}`);
             ;
-            app.listen(3000, () => {
-                console.log("server started");
+            app.listen(port, () => {
+                console.log("server started", port);
             });
         }
         catch (error) {
@@ -33,5 +36,5 @@ function startServer() {
         }
     });
 }
-app.use("/signup", user_routes_1.default);
+app.use("/user", user_routes_1.default);
 startServer();

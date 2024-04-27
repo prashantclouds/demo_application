@@ -15,11 +15,44 @@ class UserController {
     signup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("inside try", req.body.firstName);
                 const payload = req.body;
                 const result = yield user_service_1.User.Signup(payload);
                 if (result) {
                     return res.status(200).send("User creted successfully");
+                }
+                else {
+                    return res.status(400).send("something went wrong");
+                }
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    login(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const payload = req.body;
+                const result = yield user_service_1.User.loginService(payload);
+                if (result) {
+                    return res.status(200).send(result);
+                }
+                else {
+                    return res.status(400).send("something went wrong");
+                }
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    forgotPassword(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const email = req.body.email;
+                const result = yield user_service_1.User.forgotPssswordService(email);
+                if (result) {
+                    return res.status(200).send("email send successfully");
                 }
                 else {
                     return res.status(400).send("something went wrong");
