@@ -5,6 +5,8 @@ import bcrypt from "bcrypt"
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken"
 import { SessionStatus, session } from "../model/admin.session.model";
+import dotenv from "dotenv"
+dotenv.config()
 
 const SECRET_KEY = process.env.SECRET_KEY ||"default";
 
@@ -27,13 +29,13 @@ class UserService {
     const isPassword = await bcrypt.compare(payload.password,userData.password)
     if(!isPassword) throw new ApplicationError("BadRequestError","invalid password");
 
-    
+    const findSession = await session.findOne({email:payload.email})
+  
     const accessToken = jwt.sign(
-      { aid: payload.admin_id, session: payload.session_id },
+      { aid: userData._id},
       SECRET_KEY,
       { expiresIn: "2d" },
     );
-    const findSession = await session.findOne({email:payload.email})
     if(!findSession){
     await session.create({
       email: payload.email,
@@ -44,6 +46,7 @@ class UserService {
   }
   else{
     await session.findOneAndUpdate({email:payload.email},{token:accessToken})
+    return accessToken;
   }
 }
 
@@ -77,6 +80,11 @@ class UserService {
         }
       });
     }
+  }
+
+  async getProfileService(email:string){
+    const user = await UserE.findOne({email:email});
+      return user;
   }
 }
 export const User = new UserService();

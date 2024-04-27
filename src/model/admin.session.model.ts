@@ -1,7 +1,7 @@
 import { Document, Schema } from "mongoose";
 import mongoose from "mongoose";
 
-enum SessionStatus {
+export enum SessionStatus {
   Active = "Active",
   Blocked = "Blocked",
   Inactive = "Inactive",
@@ -37,4 +37,4 @@ const SessionSchema: Schema = new mongoose.Schema<Session>(
 
 const session = mongoose.model<Session>("session", SessionSchema);
 
-export { session, SessionStatus };
+export { session };

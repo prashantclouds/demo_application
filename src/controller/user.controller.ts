@@ -51,5 +51,23 @@ class UserController{
         }
 
     }
+
+    async getProfile(req:Request,res:Response){
+        try{
+            console.log("inside get profile")
+            const email=req.body.email;
+            const result:any=await User.getProfileService(email)
+            if(result){
+                return res.status(200).send(result);
+            }
+            else{
+                return res.status(400).send("something went wrong")
+            }
+        }
+        catch(error){
+            console.error("error",error)
+            throw error;
+        }
+    }
 }
 export const UserControllers = new UserController();

@@ -19,6 +19,8 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const admin_session_model_1 = require("../model/admin.session.model");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const SECRET_KEY = process.env.SECRET_KEY || "default";
 class UserService {
     Signup(payload) {
@@ -42,8 +44,8 @@ class UserService {
             const isPassword = yield bcrypt_1.default.compare(payload.password, userData.password);
             if (!isPassword)
                 throw new ApplicationError_1.ApplicationError("BadRequestError", "invalid password");
-            const accessToken = jsonwebtoken_1.default.sign({ aid: payload.admin_id, session: payload.session_id }, SECRET_KEY, { expiresIn: "2d" });
             const findSession = yield admin_session_model_1.session.findOne({ email: payload.email });
+            const accessToken = jsonwebtoken_1.default.sign({ aid: userData._id }, SECRET_KEY, { expiresIn: "2d" });
             if (!findSession) {
                 yield admin_session_model_1.session.create({
                     email: payload.email,
@@ -54,6 +56,7 @@ class UserService {
             }
             else {
                 yield admin_session_model_1.session.findOneAndUpdate({ email: payload.email }, { token: accessToken });
+                return accessToken;
             }
         });
     }
@@ -87,6 +90,12 @@ class UserService {
                     }
                 });
             }
+        });
+    }
+    getProfileService(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield user_entity_1.UserE.findOne({ email: email });
+            return user;
         });
     }
 }

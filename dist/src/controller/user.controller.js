@@ -63,5 +63,24 @@ class UserController {
             }
         });
     }
+    getProfile(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log("inside get profile");
+                const email = req.body.email;
+                const result = yield user_service_1.User.getProfileService(email);
+                if (result) {
+                    return res.status(200).send(result);
+                }
+                else {
+                    return res.status(400).send("something went wrong");
+                }
+            }
+            catch (error) {
+                console.error("error", error);
+                throw error;
+            }
+        });
+    }
 }
 exports.UserControllers = new UserController();
